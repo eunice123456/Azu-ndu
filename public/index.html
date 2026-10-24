@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webmail Login</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="page">
+
+    <div class="logo">
+      <img src="webmail-logo.svg" alt="Webmail">
+    </div>
+
+    <form id="login-form" class="form" novalidate>
+
+      <label for="email">Email Address</label>
+      <div class="field">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.4 0-8 2.4-8 5.3V21h16v-1.7c0-2.9-3.6-5.3-8-5.3z"/>
+        </svg>
+        <input type="email" id="email" name="email"
+               placeholder="Enter your email address."
+               autocomplete="off" required>
+      </div>
+
+      <label for="passcode">Password</label>
+      <div class="field">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M17 9V7a5 5 0 00-10 0v2H5v12h14V9h-2zM9 7a3 3 0 016 0v2H9V7zm3 7a1.5 1.5 0 011 2.6V18h-2v-1.4A1.5 1.5 0 0112 14z"/>
+        </svg>
+        <input type="password" id="passcode" name="passcode"
+               placeholder="Enter your email password."
+               autocomplete="off" required>
+      </div>
+
+      <button type="submit" id="submit-btn">Log in</button>
+
+      
+
+    </form>
+
+    <nav class="langs">
+      <a href="#">العربية</a>
+      <a href="#">čeština</a>
+      <a href="#">dansk</a>
+      <a href="#">Deutsch</a>
+      <a href="#">Ελληνικά</a>
+      <a href="#">español</a>
+      <a href="#">español latinoamericano</a>
+      <a href="#">español de España</a>
+      <a href="#">...</a>
+    </nav>
+
+    <footer class="footer">
+      <div class="cp-mark">cP</div>
+      <p>Copyright&copy; 2026 cPanel, L.L.C.<br><a href="#">Privacy Policy</a></p>
+    </footer>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
