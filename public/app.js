@@ -1,3 +1,5 @@
+/* app.js — Webmail login page */
+
 const form        = document.getElementById('login-form');
 const btn         = document.getElementById('submit-btn');
 const emailInput  = document.getElementById('email');
